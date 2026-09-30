@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miter Saw Tool</title>
+<link rel="stylesheet" href="Miter Saw Tool.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <h1>🪚 Miter Saw Tool</h1>
+    <div id="viewToggle">
+      <button class="active" data-view="2d" onclick="switchView('2d')">2D Editor</button>
+      <button data-view="3d" onclick="switchView('3d')">3D View</button>
+    </div>
+  </div>
+  
+  <div id="main">
+    <!-- Left Panel - Settings -->
+    <div id="leftPanel">
+      <h3>Material</h3>
+      <div class="material-option selected" data-material="2x4" onclick="selectMaterial('2x4')">
+        <div class="mat-name">2×4</div>
+        <div class="mat-dims">1.5" × 3.5"</div>
+      </div>
+      <div class="material-option" data-material="2x6" onclick="selectMaterial('2x6')">
+        <div class="mat-name">2×6</div>
+        <div class="mat-dims">1.5" × 5.5"</div>
+      </div>
+      <div class="material-option" data-material="4x4" onclick="selectMaterial('4x4')">
+        <div class="mat-name">4×4</div>
+        <div class="mat-dims">3.5" × 3.5"</div>
+      </div>
+      <div class="material-option" data-material="4x6" onclick="selectMaterial('4x6')">
+        <div class="mat-name">4×6</div>
+        <div class="mat-dims">3.5" × 5.5"</div>
+      </div>
+      
+      <h3>Stock Length</h3>
+      <div class="slider-group">
+        <div class="slider-row">
+          <label>Length:</label>
+          <input type="range" id="stockLength" min="24" max="144" step="6" value="96">
+          <span class="value" id="stockLengthVal">96"</span>
+        </div>
+      </div>
+      
+      <h3>Miter Angle</h3>
+      <div class="slider-group">
+        <div class="slider-row">
+          <label>Angle:</label>
+          <input type="range" id="miterAngle" min="-45" max="45" step="1" value="0">
+          <span class="value" id="miterAngleVal">0°</span>
+        </div>
+      </div>
+      <div class="angle-presets">
+        <button onclick="setAngle(-45)">-45°</button>
+        <button onclick="setAngle(-30)">-30°</button>
+        <button onclick="setAngle(-22.5)">-22.5°</button>
+        <button onclick="setAngle(0)">0°</button>
+        <button onclick="setAngle(22.5)">22.5°</button>
+        <button onclick="setAngle(30)">30°</button>
+        <button onclick="setAngle(45)">45°</button>
+      </div>
+      
+      <h3>Cut Position</h3>
+      <div class="slider-group">
+        <div class="slider-row">
+          <label>From end:</label>
+          <input type="range" id="cutPosition" min="2" max="94" step="0.5" value="48">
+          <span class="value" id="cutPositionVal">48"</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Center - Canvas -->
+    <div id="centerPanel">
+      <canvas id="canvas2d"></canvas>
+      <canvas id="canvas3d"></canvas>
+      <button id="toggleLabels" onclick="toggleLabels()">📏 Labels: ON</button>
+      <div id="info2d">🖱 Drag cut line to position • Scroll to zoom • Right-drag to pan</div>
+    </div>
+    
+    <!-- Right Panel -->
+    <div id="rightPanel">
+      <h3>Actions</h3>
+      <div style="margin:4px 10px;">
+        <button class="btn primary full" onclick="previewCut()">👁 Preview Cut</button>
+        <button class="btn success full" onclick="applyCut()">✅ Apply Cut</button>
+        <button class="btn warning full" onclick="revertLastCut()">↩ Revert Last</button>
+        <button class="btn danger full" onclick="clearAll()">🗑 Clear All</button>
+      </div>
+      
+      <h3>Cut Pieces (<span id="pieceCount">0</span>)</h3>
+      <div id="cutPieces"></div>
+      
+      <h3>Summary</h3>
+      <div style="font-size:10px;color:#aaa;line-height:1.8;margin:4px 10px;">
+        <div>Pieces: <span id="totalPieces" style="color:#0a84ff;">0</span></div>
+        <div>Length: <span id="totalLength" style="color:#0f0;">0"</span></div>
+        <div>Waste: <span id="wasteLength" style="color:#ff6b6b;">0"</span></div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="statusbar">
+    <span>💡 Set angle & position in 2D, preview in 3D</span>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script type="module" src="Miter Saw Tool.js"></script>
+</body>
+</html>

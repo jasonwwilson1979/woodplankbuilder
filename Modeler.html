@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Wood Plank Modeler</title>
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script><link href="Modeler.css" rel="stylesheet"/></head>
+<body>
+<div id="loading"><div class="spinner"></div><p>Loading Modeler...</p></div>
+<div id="app" style="display:none;">
+<div id="menubar">
+<span class="app-title">🔨 Wood Plank Modeler</span>
+<div class="menu-item" onclick="this.classList.toggle('open')">💾 File
+      <div class="menu-dropdown">
+<button id="saveBtn">💾 Save Project</button>
+<button id="loadBtn">📂 Load Project</button>
+<button id="exportProjectBtn">📤 Export Project (.woodproj)</button>
+<button id="importProjectBtn">📥 Import Project (.woodproj)</button>
+<input accept=".woodproj,.json" id="importProjectInput" style="display:none;" type="file"/>
+<div class="menu-sep"></div>
+<button id="importModelBtn">📥 Import Model (GLTF/GLB)</button>
+<input accept=".gltf,.glb" id="modelFileInput" style="display:none;" type="file"/>
+<button id="exportModelBtn">📤 Export Model (GLTF/OBJ)</button>
+<div class="menu-sep"></div>
+<button class="danger" id="clearBtn">🗑 Clear All</button>
+</div>
+</div>
+<div class="menu-item" onclick="this.classList.toggle('open')">✏️ Edit
+      <div class="menu-dropdown">
+<button id="undoBtn">↶ Undo</button>
+<button id="redoBtn">↷ Redo</button>
+<div class="menu-sep"></div>
+<button id="duplicateBtn">📋 Duplicate Selected</button>
+<button id="focusBtn">🎯 Focus Selected</button>
+</div>
+</div>
+<div class="menu-item" onclick="this.classList.toggle('open')">🔧 Tools
+      <div class="menu-dropdown">
+<button id="addCubeBtn">🧊 Add Cube</button>
+<button id="addCylinderBtn">🛢️ Add Cylinder</button>
+<button id="addSphereBtn">⚪ Add Sphere</button>
+<button id="addWedgeBtn">📐 Add Wedge</button>
+<button id="addArchBtn">🌉 Add Arch</button>
+<div class="menu-sep"></div>
+<button id="angleCutBtn">✂️ Angle Cut (45°)</button>
+<button id="drawCutBtn">✏️ Draw Cut Profile</button>
+<button id="clearCutsBtn">🚫 Clear All Cuts</button>
+<div class="menu-sep"></div>
+<button id="measureBtn">📏 Measure</button>
+<button id="clearMeasureBtn">Clear Measurements</button>
+<div class="menu-sep"></div>
+<button id="mirrorXBtn">↔️ Mirror X</button>
+<button id="mirrorZBtn">↔️ Mirror Z</button>
+<div class="menu-sep"></div>
+<button id="centerPivotBtn">⊕ Center Pivot</button>
+<button id="resetTransformBtn">🔄 Reset Transform</button>
+</div>
+</div>
+<div class="menu-item" onclick="this.classList.toggle('open')">👁️ View
+      <div class="menu-dropdown">
+<button id="viewTopBtn">⬆️ Top View</button>
+<button id="viewFrontBtn">🔲 Front View</button>
+<button id="viewRightBtn">➡️ Right View</button>
+<button id="viewResetBtn">🎲 Reset Camera</button>
+<div class="menu-sep"></div>
+<button id="wireframeToggle">◻️ Toggle Wireframe</button>
+<button id="gridToggle">▦ Toggle Grid</button>
+</div>
+</div>
+<div class="bar-controls">
+<button id="backToBuilderBtn">← Back to Builder</button>
+<button id="helpBtn">❓ Help</button>
+</div>
+</div>
+<div id="leftpanel">
+<h3>Scene Objects</h3>
+<div id="sceneList"></div>
+</div>
+<div id="viewport">
+<div id="viewport-info">Vertices: 0 | Faces: 0</div>
+<div id="cutOverlay">✂️ DRAW CUT PROFILE<br/>Click points on surface · Enter to Finish · Esc to Cancel</div>
+</div>
+<div id="rightpanel">
+<h3>Properties</h3>
+<div id="propsContent"><p style="color:#666;font-size:11px;">Select an object to edit its properties.</p></div>
+</div>
+<div id="statusbar">
+<span id="modeStatus">Mode: Edit</span>
+<span id="projectNameDisplay">Project: Untitled</span>
+<span id="objectCount">Objects: 0</span>
+<span id="vertexCount">Vertices: 0</span>
+<span class="hint" id="hintText">G: Move · R: Rotate · S: Scale · Del: Delete · F: Focus</span>
+</div>
+</div>
+<div id="toast"></div>
+<div id="projectModal"><div id="projectModalContent"></div></div>
+<div id="helpModal">
+<button class="close-btn" id="helpCloseBtn">×</button>
+<h4>🔨 Modeler Controls</h4>
+<div class="section">
+<div class="shortcut"><span>Select object</span><kbd>Left Click</kbd></div>
+<div class="shortcut"><span>Move</span><kbd>G</kbd></div>
+<div class="shortcut"><span>Rotate</span><kbd>R</kbd></div>
+<div class="shortcut"><span>Scale</span><kbd>S</kbd></div>
+<div class="shortcut"><span>Delete</span><kbd>Del</kbd></div>
+<div class="shortcut"><span>Focus</span><kbd>F</kbd></div>
+<div class="shortcut"><span>Duplicate</span><kbd>Shift+D</kbd></div>
+<div class="shortcut"><span>Undo / Redo</span><kbd>Ctrl+Z / Y</kbd></div>
+<div class="shortcut"><span>Measure</span><kbd>M</kbd></div>
+<div class="shortcut"><span>Orbit Camera</span><kbd>Right Drag</kbd></div>
+<div class="shortcut"><span>Pan Camera</span><kbd>Middle Drag</kbd></div>
+</div>
+</div>
+<script src="Modeler.js" type="module"></script></body>
+</html>
